@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom"; // Importa useNavigate para la redirección
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -7,7 +7,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   
-  const navigate = useNavigate(); // Inicializa useNavigate
+  const navigate = useNavigate(); // Inicializa useNavigate para la navegación
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +15,8 @@ export default function Login() {
     setSuccess("");
 
     try {
-      const response = await fetch("https://agronova-production.up.railway.app/api/usuarios", {
+      // Realizamos la solicitud de inicio de sesión a la API
+      const response = await fetch("http://127.0.0.1:8000/api/usuarios/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,28 +25,26 @@ export default function Login() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json(); // Obtén el error del servidor
+        const errorData = await response.json(); // Obtén el mensaje de error del servidor
         throw new Error(errorData.message || "Error al iniciar sesión");
       }
 
       const data = await response.json();
       console.log("Datos de login:", data);
 
+      // Si el inicio de sesión es exitoso
       setSuccess("Inicio de sesión exitoso.");
-      localStorage.setItem('token', data.token); // Almacena el token
+      localStorage.setItem('token', data.token); // Guardamos el token en el almacenamiento local
 
-      // Redirige al usuario a la página de inicio
-      navigate("/"); // Cambia la ruta si es necesario
+      // Redirigimos al usuario a la página de inicio
+      navigate("/"); // Cambia la ruta según lo que necesites
 
       // Limpiamos el formulario
       setEmail("");
       setPassword("");
     } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message); // Muestra el mensaje de error específico
-      } else {
-        setError("Hubo un problema al iniciar sesión. Por favor, inténtalo de nuevo.");
-      }
+      // Si ocurre un error, lo mostramos al usuario
+      setError(error.message || "Hubo un problema al iniciar sesión. Inténtalo nuevamente.");
     }
   };
 
@@ -54,8 +53,12 @@ export default function Login() {
       <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Iniciar Sesión</h2>
         <p className="text-center text-gray-600 mb-6">Ingresa tus credenciales para acceder a tu cuenta.</p>
+        
+        {/* Mostramos mensajes de error o éxito */}
         {error && <p className="text-red-500 text-center mb-4" role="alert">{error}</p>}
         {success && <p className="text-green-500 text-center mb-4" role="alert">{success}</p>}
+        
+        {/* Formulario de inicio de sesión */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-gray-700 mb-1">Correo electrónico</label>
@@ -85,6 +88,8 @@ export default function Login() {
             Iniciar Sesión
           </button>
         </form>
+        
+        {/* Enlace para registrar una nueva cuenta */}
         <p className="text-center text-gray-600 mt-4">
           ¿No tienes una cuenta?{" "}
           <a href="/registro" className="text-blue-600 hover:underline">
