@@ -1,5 +1,5 @@
 import React from 'react';
-import loguito from '../assets/images/LogoFooter.png'; s
+import loguito from '../assets/images/LogoFooter.png'; 
 
 function Footer() {
   return (
