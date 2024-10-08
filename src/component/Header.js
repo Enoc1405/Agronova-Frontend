@@ -1,26 +1,22 @@
-import React from 'react';
+import React from "react";
 import loguito from '../assets/images/Loguito.png';  
 import backgroundImage from '../assets/images/presentation.png';  
 
-function Header({ onLoginClick, onRegisterClick }) {
+function HeroHeader({ onLoginClick, onRegisterClick }) {
   return (
-    <div className="relative w-full h-[400px]"> 
-
+    <div className="relative w-full h-[70vh] overflow-hidden"> 
       <img 
         src={backgroundImage} 
         alt="Background" 
-        className="absolute w-full h-full object-cover" 
+        className="absolute w-full h-full object-cover top-0 left-0" 
+        style={{ margin: 0, padding: 0 }} 
       />
 
-     
-      <header className="relative z-10 bg-white bg-opacity-100 shadow-md w-3/4 mx-auto rounded-full"> 
-      <div className="flex justify-between items-center p-2"> 
-          {/* Logo y barra de búsqueda */}
+      <header className="relative z-10 bg-white bg-opacity-90 shadow-md w-11/12 mx-auto rounded-full mt-4 h-16"> 
+        <div className="flex justify-between items-center p-2"> 
           <div className="flex items-center space-x-4"> 
-            {/* Logo */}
-            <img src={loguito} alt="Agrónova Logo" className="h-12 md:h-16" /> 
+            <img src={loguito} alt="Logo" className="h-12 md:h-12" /> 
 
-            {/* Barra de búsqueda */}
             <div className="relative hidden md:block w-64"> 
               <input
                 type="text"
@@ -44,8 +40,7 @@ function Header({ onLoginClick, onRegisterClick }) {
             </div>
           </div>
 
-          {/* Menú de navegación y botones */}
-          <div className="flex items-center space-x-4"> {/* Reducir espacio entre elementos */}
+          <div className="flex items-center space-x-4">
             <ul className="hidden md:flex space-x-4">
               <li>
                 <a href="/" className="text-gray-700 hover:text-green-700">
@@ -74,13 +69,8 @@ function Header({ onLoginClick, onRegisterClick }) {
           </div>
         </div>
       </header>
-
-      {/* Logo grande centrado, puedes ajustar el tamaño aquí si lo deseas */}
-      <div className="absolute inset-0 flex justify-center items-center z-0">
-       
-      </div>
     </div>
   );
 }
 
-export default Header;
+export default HeroHeader;

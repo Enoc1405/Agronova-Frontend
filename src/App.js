@@ -10,7 +10,7 @@ function App() {
     <div>
       <Routes>
         {/* Definir el layout y las rutas */}
-        <Route path="/" element={<Layout />} />
+        <Route path="/*" element={<Layout />} />
       
         <Route path="RegistroUsuarios" element={<RegistroUsuarios />} />
         <Route path="InicioSesion" element={<InicioSesion />} />
