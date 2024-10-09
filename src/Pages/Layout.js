@@ -27,11 +27,8 @@ function Layout() {
       <Header onLoginClick={handleLoginClick} onRegisterClick={handleRegisterClick} />
       <Routes>
         <Route path="/" element={<Features />} /> {/* Ruta para la vista principal */}
-        
-        <Route path="/categorias" element={<Categories />} />
         <Route path="/planta/:apiName" element={<PlantInfo />} /> {/* Ruta para la información de la planta */}
-        <Route path="*" element={<Outlet />}> {/* Ruta comodín para manejar rutas adicionales */}
-          {/* Puedes agregar más rutas aquí si lo deseas */}
+        <Route path="*" element={<Outlet />}> 
         </Route>
       </Routes>
       <Categories /> {/* Aquí se incluye el componente Categories directamente */}

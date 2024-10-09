@@ -1,6 +1,6 @@
-// PlantInfo.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+// Asegúrate de importar el archivo CSS si lo necesitas
 
 const PlantInfo = () => {
   const { apiName } = useParams(); // Obtiene el nombre de la planta desde la URL
@@ -12,40 +12,55 @@ const PlantInfo = () => {
       try {
         const response = await fetch(`http://127.0.0.1:8000/api/planta/${apiName}`);
         
-        // Verifica si la respuesta es correcta
         if (!response.ok) {
           throw new Error('Error fetching plant data');
         }
-        
-        const data = await response.json();
-        console.log('Plant data fetched:', data); // Imprime los datos de la planta en la consola
-        setPlantData(data); // Almacena los datos de la planta en el estado
+
+        const { data } = await response.json(); // Extraer directamente la clave "data"
+        setPlantData(data.attributes); // Almacenar solo los "attributes" dentro del estado
       } catch (err) {
         setError(err.message); // Maneja el error y almacena el mensaje en el estado
       }
     };
 
-    fetchPlantData(); // Llama a la función para obtener los datos de la planta
-  }, [apiName]); // Dependencia en apiName para volver a ejecutar si cambia
+    fetchPlantData();
+  }, [apiName]);
 
   // Maneja el error en caso de que ocurra
   if (error) {
-    return <div>{error}</div>; // Muestra el mensaje de error
+    return <div className="text-red-600 text-center mt-4">{error}</div>;
   }
 
   // Maneja el estado de carga
   if (!plantData) {
-    return <div>Cargando...</div>; // Estado de carga
+    return <div className="text-center mt-4">Cargando...</div>;
   }
 
-  // Renderiza la información de la planta
+  // Renderiza toda la información relevante de la planta
   return (
-    <div>
-      <h1>{plantData.name}</h1>
-      <p>{plantData.description}</p>
-      <p><strong>Nombre científico:</strong> {plantData.scientificName}</p>
-      <p><strong>Familia:</strong> {plantData.family}</p>
-      {plantData.image && <img src={plantData.image} alt={plantData.name} />} {/* Muestra la imagen si existe */}
+    <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg mt-6">
+      {plantData.main_image_path && (
+        <div className="text-center mb-4">
+          <img
+            src={plantData.main_image_path}
+            alt={plantData.name}
+            className="rounded-lg object-cover w-full h-60" // Imagen responsiva con bordes redondeados
+          />
+        </div>
+      )}
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">{plantData.name}</h1>
+      <p className="info mb-2"><strong>Nombre binomial:</strong> {plantData.binomial_name}</p>
+      <p className="info mb-2"><strong>Taxón:</strong> {plantData.taxon}</p>
+      <p className="info mb-2"><strong>Descripción:</strong> {plantData.description}</p>
+      {plantData.common_names && plantData.common_names.length > 0 && (
+        <p className="info mb-2"><strong>Otros nombres comunes:</strong> {plantData.common_names.join(', ')}</p>
+      )}
+      <p className="info mb-2"><strong>Requisitos del sol:</strong> {plantData.sun_requirements}</p>
+      <p className="info mb-2"><strong>Días de grado crecientes:</strong> {plantData.growing_degree_days ? `${plantData.growing_degree_days} días` : 'No disponible'}</p>
+      <p className="info mb-2"><strong>Método de siembra:</strong> {plantData.sowing_method}</p>
+      <p className="info mb-2"><strong>Extensión (diámetro):</strong> {plantData.spread} cm</p>
+      <p className="info mb-2"><strong>Espaciado entre filas:</strong> {plantData.row_spacing} cm</p>
+      <p className="info mb-2"><strong>Altura:</strong> {plantData.height} cm</p>
     </div>
   );
 };

@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'; // Asegúrate de importar Link
 import corn from '../assets/images/Plantas/maiz.png';
 import wheat from '../assets/images/Plantas/trigo.png';
 import rice from '../assets/images/Plantas/arroz.png';
-import oat from '../assets/images/Plantas/avena.png';
+import barley from '../assets/images/Plantas/cebada.jpg';
 import mint from '../assets/images/Plantas/menta.png';
 import chamomile from '../assets/images/Plantas/manzanilla.png';
-import oregano from '../assets/images/Plantas/oregano.png';
+import camellia from '../assets/images/Plantas/camellia.jpeg';
 import mango from '../assets/images/Plantas/mango.png';
 import pineapple from '../assets/images/Plantas/piña.png';
 import banana from '../assets/images/Plantas/banano.png';
@@ -24,13 +24,13 @@ function Categories() {
           { name: "Maíz", apiName: "corn", image: corn },
           { name: "Trigo", apiName: "wheat", image: wheat },
           { name: "Arroz", apiName: "rice", image: rice },
-          { name: "Avena", apiName: "oats", image: oat }
+          { name: "Cebada", apiName: "barley", image: barley }
         ]} />
 
         <CategoryGroup title="Plantas Medicinales" items={[
           { name: "Menta", apiName: "mint", image: mint },
-          { name: "Manzanilla", apiName: "chamomile", image: chamomile },
-          { name: "Orégano", apiName: "oregano", image: oregano }
+          { name: "Manzanilla", apiName: "german-chamomile", image: chamomile },
+          { name: "Camellia sinensis", apiName: "tea", image: camellia }
         ]} />
 
         <CategoryGroup title="Frutas" items={[

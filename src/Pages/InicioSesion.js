@@ -92,7 +92,7 @@ export default function Login() {
         {/* Enlace para registrar una nueva cuenta */}
         <p className="text-center text-gray-600 mt-4">
           ¿No tienes una cuenta?{" "}
-          <a href="/registro" className="text-blue-600 hover:underline">
+          <a href="/registrousuarios" className="text-blue-600 hover:underline">
             Regístrate
           </a>
         </p>
