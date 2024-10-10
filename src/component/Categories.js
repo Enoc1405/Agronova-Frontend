@@ -15,38 +15,47 @@ import orange from '../assets/images/Plantas/naranja.png';
 import cassava from '../assets/images/Plantas/yuca.png';
 import potato from '../assets/images/Plantas/papa.png';
 import ginger from '../assets/images/Plantas/jengibre.png';
+import { image } from 'framer-motion/client';
 
 function Categories() {
   return (
-    <section className="py-12">
-      <div className="max-w-6xl mx-auto">
-        <CategoryGroup title="Granos y Cereales" items={[
-          { name: "Maíz", apiName: "corn", image: corn },
-          { name: "Trigo", apiName: "wheat", image: wheat },
-          { name: "Arroz", apiName: "rice", image: rice },
-          { name: "Cebada", apiName: "barley", image: barley }
-        ]} />
-
-        <CategoryGroup title="Plantas Medicinales" items={[
-          { name: "Menta", apiName: "mint", image: mint },
-          { name: "Manzanilla", apiName: "german-chamomile", image: chamomile },
-          { name: "Camellia sinensis", apiName: "tea", image: camellia }
-        ]} />
-
-        <CategoryGroup title="Frutas" items={[
-          { name: "Mango", apiName: "mango", image: mango },
-          { name: "Piña", apiName: "pineapple", image: pineapple },
-          { name: "Banano", apiName: "banana", image: banana },
-          { name: "Naranja", apiName: "orange", image: orange }
-        ]} />
-
-        <CategoryGroup title="Raíces y Tubérculos" items={[
-          { name: "Yuca", apiName: "cassava", image: cassava },
-          { name: "Papa", apiName: "potato", image: potato },
-          { name: "Jengibre", apiName: "ginger", image: ginger }
-        ]} />
+    <><section className="h-64 flex items-center justify-center bg-green-100">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-green-700 mb-4">Consulta sobre tus cultivos</h1>
+        <p className="text-lg text-green-600">Selecciona el tipo de cultivo que te interesa y encuentra toda la<br/> informacion que necesitas,
+          para maximizar su rendimiento.
+        </p>
       </div>
-    </section>
+    </section><section className="py-12">
+
+        <div className="max-w-6xl mx-auto">
+          <CategoryGroup title="Granos y Cereales" items={[
+            { name: "Maíz", apiName: "corn", image: corn },
+            { name: "Trigo", apiName: "wheat", image: wheat },
+            { name: "Arroz", apiName: "rice", image: rice },
+            { name: "Cebada", apiName: "barley", image: barley }
+          ]} />
+
+          <CategoryGroup title="Plantas Medicinales" items={[
+            { name: "Menta", apiName: "mint", image: mint },
+            { name: "Manzanilla", apiName: "german-chamomile", image: chamomile },
+            { name: "Camellia sinensis", apiName: "tea", image: camellia }
+          ]} />
+
+          <CategoryGroup title="Frutas" items={[
+            { name: "Mango", apiName: "mango", image: mango },
+            { name: "Piña", apiName: "pineapple", image: pineapple },
+            { name: "Banano", apiName: "banana", image: banana },
+            { name: "Naranja", apiName: "orange", image: orange }
+          ]} />
+
+          <CategoryGroup title="Raíces y Tubérculos" items={[
+            { name: "Yuca", apiName: "cassava", image: cassava },
+            { name: "Papa", apiName: "potato", image: potato },
+            { name: "Jengibre", apiName: "ginger", image: ginger }
+          ]} />
+        </div>
+      </section></>
   );
 }
 
