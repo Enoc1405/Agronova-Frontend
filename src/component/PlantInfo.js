@@ -10,7 +10,8 @@ const PlantInfo = () => {
   useEffect(() => {
     const fetchPlantData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/planta/${apiName}`);
+        const response = await fetch(`https://agronova-backend-production.up.railway.app/api/planta/${apiName}`);
+
         
         if (!response.ok) {
           throw new Error('Error fetching plant data');

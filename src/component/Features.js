@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaSun, FaSeedling } from 'react-icons/fa';
 import presentation2 from '../assets/images/presentation2.png'; // Importar imagen localmente
-import { motion } from 'framer-motion';
-import { title } from 'framer-motion/client';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Features() {
   const [inView, setInView] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   const handleScroll = () => {
     const featuresSection = document.getElementById('features');
@@ -24,43 +24,118 @@ function Features() {
     };
   }, []);
 
+  const items = [
+    {
+      id: '1',
+      icon: <FaClock className="h-10 w-10" style={{ color: '#309B5B' }} />,
+      title: 'Consultas en tiempo real',
+      subtitle: 'Obtén respuestas inmediatas sobre tus cultivos.',
+      description: 'Desde cómo plantar hasta la gestión de plagas y enfermedades.',
+      moreInfo: (
+        <>
+          Siempre disponible, nuestro servicio te ayuda a resolver cualquier duda sobre tus cultivos en el momento.<br />
+          Ya sea que necesites asesoría sobre técnicas de cultivo, identificación de plagas o recomendaciones para <br />
+          mejorar el rendimiento, estamos aquí para brindarte apoyo inmediato. Con un acceso fácil y rápido a información <br />
+          relevante, podrás tomar decisiones informadas que optimicen la salud y productividad de tus cultivos, sin importar<br />
+          la hora del día. Tu éxito agrícola es nuestra prioridad.
+        </>
+      )
+    },
+    {
+      id: '2',
+      icon: <FaSun className="h-10 w-10" style={{ color: '#309B5B' }} />,
+      title: 'Información sobre clima y suelo',
+      subtitle: 'Accede a recomendaciones basadas en las condiciones locales.',
+      description: 'Clima y la calidad del suelo.',
+      moreInfo: (
+        <>
+          Datos actualizados y recomendaciones precisas para mejorar la calidad de tus cultivos. <br />
+          Aprovecha nuestra tecnología avanzada para optimizar tus prácticas agrícolas, identificar <br /> y mitigar enfermedades, y maximizar el rendimiento de tus cosechas.
+          Con información en tiempo real <br />y consejos personalizados, te ayudamos a tomar decisiones informadas que asegurarán la salud y productividad de tus cultivos.
+        </>
+      )
+    },
+    {
+      id: '3',
+      icon: <FaSeedling className="h-10 w-10" style={{ color: '#309B5B' }} />,
+      title: 'Técnicas Modernas y Sostenibles',
+      subtitle: 'Aprende sobre métodos agrícolas innovadores.',
+      description: 'Optimiza tus recursos y mejora tus rendimientos de manera ecológica.',
+      moreInfo: (
+        <>
+          Metodologías sostenibles que promueven la salud del medio ambiente.<br />
+          Implementamos prácticas agrícolas responsables que no solo mejoran la calidad de tus cultivos, sino<br />
+          que también preservan la biodiversidad y protegen nuestros recursos naturales. Desde la rotación<br />
+          de cultivos y el uso eficiente del agua, hasta el control biológico de plagas y el manejo de suelos,<br />
+          nuestras estrategias están diseñadas para fomentar un equilibrio ecológico. Al adoptar estas metodologías,<br />
+          contribuirás a un futuro más verde y sostenible para las generaciones venideras.
+        </>
+      )
+    },
+  ];
+
   return (
     <section id="features" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         {/* Primera fila */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-center">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-          >
-            <FeatureItem
-              icon={<FaClock className="h-10 w-10" style={{ color: '#309B5B' }} />}
-              title="Consultas en tiempo real"
-              description="Obtén respuestas inmediatas sobre tus cultivos, desde cómo plantar hasta la gestión de plagas y enfermedades."
-            />
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-          >
-            <FeatureItem
-              icon={<FaSun className="h-10 w-10" style={{ color: '#309B5B' }} />}
-              title="Información sobre clima y suelo"
-              description="Accede a recomendaciones basadas en las condiciones locales de tu terreno, como el clima y la calidad del suelo."
-            />
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-          >
-            <FeatureItem
-              icon={<FaSeedling className="h-10 w-10" style={{ color: '#309B5B' }} />}
-              title="Técnicas Modernas y Sostenibles"
-              description="Aprende sobre métodos agrícolas innovadores para optimizar tus recursos y mejorar tus rendimientos de manera ecológica."
-            />
-          </motion.div>
+          {items.map(item => (
+            <motion.div
+              key={item.id}
+              layoutId={item.id}
+              onClick={() => setSelectedId(selectedId === item.id ? null : item.id)}
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FeatureItem
+                icon={item.icon}
+                title={item.title}
+                description={item.description}
+              />
+            </motion.div>
+          ))}
         </div>
 
+        <AnimatePresence>
+          {selectedId && (
+            <motion.div
+              layoutId={selectedId}
+              className="fixed inset-0 flex items-center justify-center bg-green-400 bg-opacity-50 z-10" // Cambiado a fondo transparente
+              onClick={() => setSelectedId(null)}
+            >
+              <motion.div
+                className="bg-white rounded-lg p-6 shadow-lg" // Fondo blanco para el contenido del modal
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+              >
+                {items.find(item => item.id === selectedId) && (
+                  <>
+                    <motion.h5 className="text-lg font-semibold">
+                      {items.find(item => item.id === selectedId).subtitle}
+                    </motion.h5>
+                    <motion.h2 className="text-xl font-bold">
+                      {items.find(item => item.id === selectedId).title}
+                    </motion.h2>
+                    <motion.p className="text-gray-600 mt-2">
+                      {items.find(item => item.id === selectedId).description}
+                    </motion.p>
+                    {/* Información adicional */}
+                    <motion.p className="text-gray-500 mt-2 italic">
+                      {items.find(item => item.id === selectedId).moreInfo}
+                    </motion.p>
+                    <motion.button
+                      className="mt-4 px-4 py-2 bg-green-500 text-white rounded"
+                      onClick={() => setSelectedId(null)}
+                    >
+                      Cerrar
+                    </motion.button>
+                  </>
+                )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Segunda fila con imagen y tarjetas verdes */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

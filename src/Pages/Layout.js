@@ -9,6 +9,7 @@ import Footer from "../component/Footer";
 import Chatbot from "../component/Chatbot";
 import PlantInfo from "../component/PlantInfo"; // Importar el componente PlantInfo
 import { Outlet } from 'react-router-dom';
+import Testimonio from '../component/Testimonio';
 
 function Layout() {
   const navigate = useNavigate();
@@ -33,7 +34,9 @@ function Layout() {
       </Routes>
       <Categories /> {/* Aquí se incluye el componente Categories directamente */}
       <Benefits />
+      <Testimonio/>
       <Footer />
+      
     </div>
   );
 }

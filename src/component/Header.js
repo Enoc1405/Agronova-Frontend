@@ -12,8 +12,8 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
         style={{ margin: 0, padding: 0 }}
       />
 
-      <header className="relative z-10 bg-white bg-opacity-90 shadow-md w-11/12 mx-auto rounded-full mt-4 h-16">
-        <div className="flex justify-between items-center p-2">
+      <header className="fixed top-0 left-0 right-0 mx-auto bg-white bg-opacity-100 shadow-md z-10 mt-4 h-16 rounded-3xl w-11/12"> {/* Ajustamos el ancho y el margen */}
+        <div className="flex justify-between items-center p-2 h-full"> {/* Cambié el alto a h-full para que ocupe todo el espacio */}
           <div className="flex items-center space-x-4">
             <img src={loguito} alt="Logo" className="h-12 md:h-12" />
 
@@ -24,14 +24,14 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
                 className="pl-4 pr-10 py-1 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-green-500"
               />
 
-              <div className="absolute right-0 top-0 h-full flex items-center pr-4 bg-green-500 rounded-r-full"> {/* Cambiado right-0 a right-2 */}
+              <div className="absolute right-0 top-0 h-full flex items-center pr-4 bg-green-500 rounded-r-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="2"
                   stroke="currentColor"
-                  className="h-10 w-10 text-white p-2" // Tamaño del ícono
+                  className="h-10 w-10 text-white p-2"
                 >
                   <path
                     strokeLinecap="round"
@@ -41,18 +41,17 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
                 </svg>
               </div>
             </div>
-
           </div>
 
           <div className="flex items-center space-x-4">
             <ul className="hidden md:flex space-x-4">
               <li>
-                <a href="/" className="text-gray-700 hover:text-green-700">
+                <a href="/" className="text-gray-700 hover:text-green-700  mr-4">
                   Contacto
                 </a>
               </li>
               <li>
-                <a href="/" className="text-gray-700 hover:text-green-700">
+                <a href="/" className="text-gray-700 hover:text-green-700  mr-4">
                   Comunidad
                 </a>
               </li>
@@ -60,16 +59,17 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
 
             <button
               onClick={onLoginClick}
-              className="bg-[#20683D] text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105"
+              className="bg-[#20683D] text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105 mr-10" // Agregado margin-right
             >
               Iniciar sesión
             </button>
             <button
               onClick={onRegisterClick}
-              className="bg-[#20683D] text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105"
+              className="bg-[#20683D] text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105  mr-10"
             >
               Registrarse
             </button>
+
           </div>
         </div>
       </header>

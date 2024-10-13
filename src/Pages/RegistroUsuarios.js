@@ -41,7 +41,7 @@ export default function UserRegistration() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/usuarios", {
+      const response = await fetch("https://agronova-backend-production.up.railway.app/api/usuarios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
