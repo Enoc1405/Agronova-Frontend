@@ -59,13 +59,13 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
 
             <button
               onClick={onLoginClick}
-              className="bg-[#20683D] text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105 mr-10" // Agregado margin-right
+              className="bg-green-500 text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105 mr-10" // Agregado margin-right
             >
               Iniciar sesión
             </button>
             <button
               onClick={onRegisterClick}
-              className="bg-[#20683D] text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105  mr-10"
+              className="bg-green-500 text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105  mr-10"
             >
               Registrarse
             </button>

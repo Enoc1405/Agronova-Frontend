@@ -44,78 +44,78 @@ function Benefits() {
           </motion.div>
         </div>
 
-        {/* Nuevo Apartado de Consultas */}
-        <div className="mt-48 relative">
-          {/* Imagen de fondo */}
-          <motion.img
-            src={Agrii}
-            alt="Fondo de Consultas"
-            className="w-full h-96 object-cover opacity-70 rounded-2xl" // Asegúrate de que la imagen ocupe todo el contenedor
-            initial={{ x: '-100%', opacity: 0 }} // Inicializa la imagen desde la izquierda y con opacidad 0
-            whileInView={{ x: 0, opacity: 0.7 }} // Animación al entrar en vista
-            transition={{ duration: 1 }} // Aumenta la duración de la animación a 1 segundo
-            viewport={{ once: false }} // La animación se repetirá al volver a entrar en vista
-          />
-          <motion.div
-            className="absolute inset-0 flex flex-col items-center justify-center text-center" // Centra el texto sobre la imagen
-            initial={{ x: '-100%', opacity: 0 }} // Inicializa desde la izquierda y con opacidad 0
-            whileInView={{ x: 0, opacity: 1 }} // Animación al entrar en vista
-            transition={{ duration: 1 }} // Aumenta la duración de la animación a 1 segundo
-            viewport={{ once: false }} // La animación se repetirá al volver a entrar en vista
-          >
-            <h2 className="text-3xl font-bold text-center text-black">Haz todas las consultas que necesites</h2>
-            <p className="text-lg text-black font-semibold mt-10"> {/* Añade aquí tu párrafo */}
-              Consulta sobre cualquier tema agrícola y recibe información detallada <br />
-              para cuidar y mejorar tus cultivos de forma eficiente y sostenible.
-            </p>
+          {/* Nuevo Apartado de Consultas */}
+          <div className="mt-48 relative">
+            {/* Imagen de fondo */}
+            <motion.img
+              src={Agrii}
+              alt="Fondo de Consultas"
+              className="w-full h-96 object-cover opacity-70 rounded-2xl" // Asegúrate de que la imagen ocupe todo el contenedor
+              initial={{ x: '-100%', opacity: 0 }} // Inicializa la imagen desde la izquierda y con opacidad 0
+              whileInView={{ x: 0, opacity: 0.7 }} // Animación al entrar en vista
+              transition={{ duration: 1 }} // Aumenta la duración de la animación a 1 segundo
+              viewport={{ once: false }} // La animación se repetirá al volver a entrar en vista
+            />
+            <motion.div
+              className="absolute inset-0 flex flex-col items-center justify-center text-center" // Centra el texto sobre la imagen
+              initial={{ x: '-100%', opacity: 0 }} // Inicializa desde la izquierda y con opacidad 0
+              whileInView={{ x: 0, opacity: 1 }} // Animación al entra  r en vista
+              transition={{ duration: 1 }} // Aumenta la duración de la animación a 1 segundo
+              viewport={{ once: false }} // La animación se repetirá al volver a entrar en vista
+            >
+              <h2 className="text-3xl font-bold text-center text-black">Haz todas las consultas que necesites</h2>
+              <p className="text-lg text-black font-semibold mt-10"> {/* Añade aquí tu párrafo */}
+                Consulta sobre cualquier tema agrícola y recibe información detallada <br />
+                para cuidar y mejorar tus cultivos de forma eficiente y sostenible.
+              </p>
 
-            <div className="text-center mt-8">
-              <button className="bg-green-500 text-white px-6 py-3 rounded-xl hover:bg-green-600 transition duration-300 transform hover:scale-105 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">
-                ¡Empezamos ahora!
-              </button>
-            </div>
-          </motion.div>
+              <div className="text-center mt-8">
+                <button className="bg-green-500 text-white px-6 py-3 rounded-xl hover:bg-green-600 transition duration-300 transform hover:scale-105 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">
+                  ¡Empezamos ahora!
+                </button>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Tarjetas de Consulta */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 mb-16">
+            <ConsultationItem title="Cómo Preparar el Suelo para la Siembra" icon="🌱" />
+            <ConsultationItem title="Control de Enfermedades y plagas en Plantas" icon="🦠" />
+            <ConsultationItem title="Técnicas Modernas y eficaces de Agricultura" icon="🚜" />
+          </div>
         </div>
+      </section>
+    );
+  }
 
-        {/* Tarjetas de Consulta */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 mb-16">
-          <ConsultationItem title="Cómo Preparar el Suelo para la Siembra" icon="🌱" />
-          <ConsultationItem title="Control de Enfermedades y plagas en Plantas" icon="🦠" />
-          <ConsultationItem title="Técnicas Modernas y eficaces de Agricultura" icon="🚜" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function BenefitItem({ title, icon }) {
-  return (
-    <motion.div
-      className="benefit-item bg-gradient-to-r from-green-400 to-green-500 p-6 rounded-lg shadow-lg text-center"
-      whileInView={{ opacity: [0, 1], y: [100, 0] }} // Animación de aparición
-      initial={{ opacity: 0, y: 100 }} // Comienza invisible y fuera de pantalla
-      transition={{ duration: 0.8, ease: 'easeOut' }} // Controla la duración y la suavidad de la aparición
-      viewport={{ once: false }} // Para permitir la animación cada vez que entra en vista
-      whileHover={{ scale: 1.1, rotate: 5 }} // Animación de hover
-    >
-      <div className="text-white text-6xl mb-4">{icon}</div>
-      <h3 className="font-bold text-white text-xl">{title}</h3>
-    </motion.div>
+  function BenefitItem({ title, icon }) {
+    return (
+      <motion.div
+        className="benefit-item bg-gradient-to-r from-green-400 to-green-500 p-6 rounded-lg shadow-lg text-center"
+        whileInView={{ opacity: [0, 1], y: [100, 0] }} // Animación de aparición
+        initial={{ opacity: 0, y: 100 }} // Comienza invisible y fuera de pantalla
+        transition={{ duration: 0.8, ease: 'easeOut' }} // Controla la duración y la suavidad de la aparición
+        viewport={{ once: false }} // Para permitir la animación cada vez que entra en vista
+        whileHover={{ scale: 1.1, rotate: 5 }} // Animación de hover
+      >
+        <div className="text-white text-6xl mb-4">{icon}</div>
+        <h3 className="font-bold text-white text-xl">{title}</h3>
+      </motion.div>
   );
 }
 
 function ConsultationItem({ title, icon }) {
   return (
     <motion.div
-      className="bg-purple-500 text-white p-6 rounded-lg shadow-lg text-center transition-transform duration-300 transform hover:scale-105"
+      className="bg-green-100 text-white p-6 rounded-lg shadow-lg text-center transition-transform duration-300 transform hover:scale-105"
       whileInView={{ opacity: [0, 1], y: [100, 0] }} // Animación de aparición
       initial={{ opacity: 0, y: 200 }} // Comienza invisible y fuera de pantalla
       transition={{ duration: 0.1, ease: 'easeOut' }} // Controla la duración y la suavidad de la aparición
       viewport={{ once: false }} // Para permitir la animación cada vez que entra en vista
     >
       <div className="text-4xl mb-2">{icon}</div> {/* Añade el ícono aquí */}
-      <h4 className="text-lg font-bold mb-2">{title}</h4>
-      <p className="text-sm">Comencemos</p>
+      <h4 className="text-lg font-bold mb-2 text-green-700">{title}</h4>
+      <p className="text-sm text-green-800">Comencemos</p>
     </motion.div>
   );
 }
