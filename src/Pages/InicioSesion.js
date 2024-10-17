@@ -33,8 +33,12 @@ export default function SignInSide() {
       console.log("Datos de login:", data);
 
       setSuccess("Inicio de sesión exitoso.");
+
+      // Almacena el token y el ID del usuario en el localStorage
       localStorage.setItem('token', data.token);
-      navigate("/");
+      localStorage.setItem('userId', data.user.id); // Aquí asume que la respuesta incluye el ID del usuario
+
+      navigate("/"); // Redirige a la página principal
 
       setEmail("");
       setPassword("");
