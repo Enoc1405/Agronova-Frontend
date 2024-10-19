@@ -39,7 +39,7 @@ function Categories() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, []);   
 
   return (
     <>

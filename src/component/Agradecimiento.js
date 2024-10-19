@@ -6,7 +6,7 @@ const Agradecimiento = () => {
 
         <section className="relative bg-gray-100 mt-15 mb-20">
             {/* Imagen de fondo */}
-            <div className="relative">
+            <div className="relative">  
                 <img
                     src={fondo} // Reemplaza esto con la ruta a tu imagen
                     alt="Agricultura"
