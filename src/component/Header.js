@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { MenuIcon, XIcon, UserIcon, InformationCircleIcon, ChatIcon, LogoutIcon, ChartBarIcon } from '@heroicons/react/solid';
 import loguito from '../assets/images/Loguito.png';
 import backgroundImage from '../assets/images/presentation.png';
-import { MenuIcon, XIcon, UserIcon } from '@heroicons/react/solid'; // Importar íconos necesarios
+
+const translationMap = {
+  "tomate": "tomato",
+  "lechuga": "lettuce",
+  "zanahoria": "carrot",
+  "pepino": "cucumber",
+  // Agrega más traducciones según sea necesario
+};
 
 function HeroHeader({ onLoginClick, onRegisterClick }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para controlar el menú hamburguesa
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
+  const [selectedCrop, setSelectedCrop] = useState(null); // Estado para almacenar el cultivo seleccionado
   const navigate = useNavigate();
 
   // Efecto para verificar si el token está en localStorage
@@ -23,12 +33,60 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
     navigate("/PefilUsuario"); // Cambia la ruta si el path es diferente
   };
 
+  const goToAbout = () => {
+    navigate("/About");
+  }
+
+  const goToDash = () => {
+    navigate("/Dashboard");
+  }
+
+  const goToChat = () => {
+    navigate("/Chat");
+  }
+
   // Cerrar sesión (ejemplo)
   const handleLogout = () => {
     localStorage.removeItem("token"); // Eliminar el token
     setIsAuthenticated(false); // Actualizar el estado de autenticación
     setIsMenuOpen(false); // Cerrar el menú al hacer logout
     navigate("/"); // Redirigir a la página de inicio o donde prefieras
+  };
+
+  // Manejar el cambio en el campo de búsqueda
+  const handleSearchChange = (event) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+
+    // Si el término de búsqueda no está vacío, llamar a la función de búsqueda
+    if (term) {
+      handleSearchSubmit(term);
+    } else {
+      setSelectedCrop(null); // Limpiar la planta seleccionada si no hay término
+    }
+  };
+
+  // Manejar la búsqueda
+  const handleSearchSubmit = async (term) => {
+    const translatedTerm = translationMap[term.toLowerCase()] || term; // Traducir el término
+
+    try {
+      const response = await fetch(`https://agronova-backend-production.up.railway.app/api/buscar/${translatedTerm}`);
+      if (!response.ok) {
+        throw new Error("Error al obtener datos de la API");
+      }
+      const data = await response.json();
+
+      // Asumiendo que la respuesta contiene un objeto con los detalles del cultivo
+      if (data.data) {
+        setSelectedCrop(data.data); // Guardamos la planta seleccionada en el estado
+      } else {
+        setSelectedCrop(null); // Si no hay datos, limpiar el estado
+      }
+      console.log("Resultados de búsqueda:", data); // Muestra los resultados en la consola
+    } catch (error) {
+      console.error("Error al realizar la búsqueda: ", error);
+    }
   };
 
   return (
@@ -45,10 +103,12 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
             <img src={loguito} alt="Logo" className="h-12 md:h-12" />
 
             {/* Barra de búsqueda */}
-            <div className="relative hidden md:block w-96">
+            <div className="relative w-96">
               <input
                 type="text"
                 placeholder="¿Qué quieres cultivar?"
+                value={searchTerm} // Agregar valor del estado
+                onChange={handleSearchChange} // Actualizamos el valor del estado y ejecutamos la búsqueda
                 className="pl-4 pr-10 py-1 border border-gray-300 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-green-500"
               />
               <div className="absolute right-0 top-0 h-full flex items-center pr-4 bg-green-500 rounded-r-full cursor-pointer">
@@ -87,67 +147,96 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
                 </button>
               </>
             ) : (
-              // Si el usuario está autenticado, mostramos el menú de hamburguesa
               <div className="relative">
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)} // Alternar el menú
                   className="flex items-center justify-center bg-green-500 rounded-full p-2 hover:bg-green-600 transition-transform transform hover:scale-105 mr-10"
                 >
                   {isMenuOpen ? (
-                    <XIcon className="h-6 w-6 text-white" /> // Ícono X cuando el menú está abierto
+                    <XIcon className="h-6 w-6 text-white" />
                   ) : (
-                    <MenuIcon className="h-6 w-6 text-white" /> // Ícono de hamburguesa cuando está cerrado
+                    <MenuIcon className="h-6 w-6 text-white" />
                   )}
                 </button>
 
-                {/* Menú desplegable */}
                 {isMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
                     <button
-                      onClick={goToProfile}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={goToChat}
+                      className="flex items-center w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
                     >
-                      Perfil
+                      <ChatIcon className="h-5 w-5 mr-2" />
+                      Chatbot
+                    </button>
+
+                    <button
+                      onClick={goToDash}
+                      className="flex items-center w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      <ChartBarIcon className="h-5 w-5 mr-2" />
+                      DashBoard
                     </button>
 
                     <button
                       onClick={goToProfile}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      className="flex items-center w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
                     >
+                      <UserIcon className="h-5 w-5 mr-2" />
+                      Perfil
+                    </button>
+
+                    <hr className="my-2 border-gray-300 mt-10" />
+
+                    <button
+                      onClick={goToAbout}
+                      className="flex items-center w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      <InformationCircleIcon className="h-5 w-5 mr-2" />
                       Acerca
                     </button>
 
                     <button
                       onClick={goToProfile}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      className="flex items-center w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
                     >
-                      Perfil
+                      <InformationCircleIcon className="h-5 w-5 mr-2" />
+                      Contacto
                     </button>
-
-                    <button
-                      onClick={() => navigate("/chatbot")} // Aquí puedes redirigir a la vista del chatbot si tienes esta ruta definida
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Chatbot
-                    </button>
-
-                    {/* Línea divisoria antes de "Cerrar Sesión" */}
-                    <hr className="my-2 border-gray-300 mt-10" />
 
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-b-lg"
+                      className="flex items-center w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100 rounded-b-lg"
                     >
+                      <LogoutIcon className="h-5 w-5 mr-2" />
                       Cerrar Sesión
                     </button>
                   </div>
                 )}
-
               </div>
             )}
           </div>
         </div>
       </header>
+
+      {/* Sección para mostrar resultados de búsqueda */}
+      <div className="relative z-10 w-11/12 mx-auto mt-20"> {/* Ajusta el margen superior para que esté debajo del header */}
+        {selectedCrop && (
+          <div className="bg-white border border-gray-300 rounded-lg shadow-md p-3">
+            <img src={selectedCrop.attributes.main_image_path} alt={selectedCrop.attributes.name} className="w-full h-24 object-cover rounded-t-lg" />
+            <h3 className="text-sm font-semibold mt-1">{selectedCrop.attributes.name}</h3>
+            <p className="text-gray-600 text-sm">{selectedCrop.attributes.description}</p>
+            <p className="text-gray-600 text-sm"><strong>Nombre científico:</strong> {selectedCrop.attributes.binomial_name}</p>
+            <p className="text-gray-600 text-sm"><strong>Requerimientos de sol:</strong> {selectedCrop.attributes.sun_requirements}</p>
+            <p className="text-gray-600 text-sm"><strong>Método de siembra:</strong> {selectedCrop.attributes.sowing_method}</p>
+            <p className="text-gray-600 text-sm"><strong>Altura:</strong> {selectedCrop.attributes.height} cm</p>
+          </div>
+        )}
+        {searchTerm && !selectedCrop && (
+          <div className="bg-white border border-gray-300 rounded-lg shadow-md p-3">
+            <p className="text-gray-500 text-sm">No se encontraron resultados para "{searchTerm}"</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

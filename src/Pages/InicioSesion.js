@@ -7,6 +7,7 @@ export default function SignInSide() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false); // Estado de carga
 
   const navigate = useNavigate(); // Inicializa useNavigate para la navegación
 
@@ -14,6 +15,7 @@ export default function SignInSide() {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true); // Inicia la carga
 
     try {
       const response = await fetch("https://agronova-backend-production.up.railway.app/api/usuarios/login", {
@@ -44,6 +46,8 @@ export default function SignInSide() {
       setPassword("");
     } catch (error) {
       setError(error.message || "Hubo un problema al iniciar sesión. Inténtalo nuevamente.");
+    } finally {
+      setLoading(false); // Termina la carga
     }
   };
 
@@ -51,7 +55,7 @@ export default function SignInSide() {
     <div className="flex min-h-screen">
       {/* Sección de la imagen */}
       <div className="hidden md:block md:w-3/5"> 
-        <div className="h-full" style={{ backgroundImage: `url(${Fondo})`, backgroundSize: 'cover', backgroundPosition: 'center',  }}></div>
+        <div className="h-full" style={{ backgroundImage: `url(${Fondo})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
       </div>
       {/* Sección del formulario */}
       <div className="w-full md:w-2/5 flex items-center justify-center bg-white p-6"> 
@@ -97,8 +101,38 @@ export default function SignInSide() {
                 <input type="checkbox" id="remember" className="mr-2" />
                 <label htmlFor="remember" className="text-gray-700">Recordarme</label>
               </div>
-              <button type="submit" className="w-full p-2 bg-green-500 text-white rounded-md hover:bg-green-400 transition duration-300">
-                Iniciar Sesión
+              <button 
+                type="submit" 
+                className={`w-full p-2 rounded-md text-white transition duration-300 ${loading ? "bg-gray-500" : "bg-green-500 hover:bg-green-400"}`} 
+                disabled={loading} // Desactiva el botón mientras está cargando
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <svg
+                      className="animate-spin h-5 w-5 text-white mr-2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4l5-5-5 5v4a8 8 0 01-8 8z"
+                      />
+                    </svg>
+                    Cargando...
+                  </div>
+                ) : (
+                  "Iniciar Sesión"
+                )}
               </button>
               {/* Contenedor flex para enlaces */}
               <div className="flex justify-between mt-4">

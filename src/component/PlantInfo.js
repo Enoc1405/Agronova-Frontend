@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 
@@ -7,6 +8,7 @@ const PlantInfo = () => {
   const { apiName } = useParams();
   const [plantData, setPlantData] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Hook para la navegación
 
   useEffect(() => {
     const fetchPlantData = async () => {
@@ -32,7 +34,40 @@ const PlantInfo = () => {
   }
 
   if (!plantData) {
-    return <div className="text-center mt-4">Cargando...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <motion.div
+          className="text-center p-4 bg-white rounded-lg shadow-lg"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="flex items-center justify-center">
+            <svg
+              className="animate-spin h-10 w-10 text-blue-500 mr-2"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l5-5-5 5v4a8 8 0 01-8 8z"
+              />
+            </svg>
+            <span className="text-gray-700 text-lg">Cargando...</span>
+          </div>
+        </motion.div>
+      </div>
+    );
   }
 
   return (
@@ -134,7 +169,10 @@ const PlantInfo = () => {
               <button className="mt-2 text-blue-500 hover:underline">Leer más</button>
             </div>
           </div>
-          <button className="w-full text-left bg-blue-500 text-white p-3 mt-6 rounded-md hover:bg-blue-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <button 
+            onClick={() => navigate('/FormularioGuia')} // Usando useNavigate para redirigir
+            className="w-full text-left bg-blue-500 text-white p-3 mt-6 rounded-md hover:bg-blue-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
             ¡Crea una guía!
           </button>
         </div>

@@ -1,0 +1,34 @@
+import React, { useState } from 'react'
+
+const PolygonManager = ({ polygonName, setPolygonName, handleSavePolygon, handleUpdatePolygon, selectedPolygon }) => {
+  return (
+    <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+      <h2 className="text-xl font-bold mb-4">Polygon Management</h2>
+      <input
+        type="text"
+        value={polygonName}
+        onChange={(e) => setPolygonName(e.target.value)}
+        placeholder="Enter polygon name"
+        className="w-full px-3 py-2 border border-gray-300 rounded-md mb-2"
+      />
+      <div className="flex space-x-2">
+        <button
+          onClick={handleSavePolygon}
+          className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+        >
+          Save Polygon
+        </button>
+        {selectedPolygon && selectedPolygon.id && (
+          <button
+            onClick={() => handleUpdatePolygon(selectedPolygon.id)}
+            className="flex-1 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors"
+          >
+            Update Polygon
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default PolygonManager
