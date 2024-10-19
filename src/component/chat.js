@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios"; // Importar Axios para manejar solicitudes HTTP
-import { AiOutlineArrowRight } from "react-icons/ai"; // Importar el ícono de flecha
+import { AiOutlineArrowRight } from "react-icons/ai"; 
 import "../App.css";
 
 const App = () => {
     const [userInput, setUserInput] = useState("");
     const [chatHistory, setChatHistory] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading] = useState(false);
     const chatContainerRef = useRef(null);
 
     // Inicializar la API de Gemini
@@ -19,10 +18,6 @@ const App = () => {
     const handleUserInput = (e) => {
         setUserInput(e.target.value);
     };
-
-    const goToChat = () => {
-        navigate("/Chat");
-      }
 
     // Función para generar una respuesta con experiencia en agronomía
     const generateResponse = async (input) => {
@@ -75,7 +70,6 @@ const App = () => {
         }
     };
 
-
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
             sendMessage();
@@ -95,13 +89,12 @@ const App = () => {
     }, [chatHistory]);
 
     return (
-        <div className="flex h-screen overflow-hidden"> {/* Asegurando que no se salga del contenedor */}
+        <div className="flex h-screen overflow-hidden flex-col md:flex-row"> {/* Cambia a flex-col en pantallas pequeñas */}
             {/* Sidebar */}
-            <div className="w-1/4 bg-gray-900 text-white flex flex-col justify-between">
+            <div className="w-full md:w-1/4 bg-gray-900 text-white flex flex-col justify-between md:block hidden"> {/* Oculta en pantallas pequeñas */}
                 <div className="pt-4">
                     <div className="px-4 py-2 text-lg font-semibold">Agronova</div>
                     <div className="px-4 py-2 text-gray-500">Nuevo Chat</div>
-
                     {/* Sidebar content with scroll */}
                     <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4 text-gray-300">
                         <div className="mb-6">
@@ -155,12 +148,11 @@ const App = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
             {/* Main Chat Section */}
-            <div className="w-3/4 bg-gray-800 text-white flex flex-col justify-between">
+            <div className="w-full md:w-3/4 bg-gray-800 text-white flex flex-col justify-between flex-grow"> {/* Asegura que ocupe todo el espacio en móviles */}
                 <div className="flex-grow overflow-y-auto p-4" ref={chatContainerRef}>
                     <AnimatePresence>
                         {chatHistory.map((chat, index) => (

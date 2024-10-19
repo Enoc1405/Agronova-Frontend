@@ -100,10 +100,10 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
       <header className="fixed top-0 left-0 right-0 mx-auto bg-white bg-opacity-100 shadow-md z-10 mt-4 h-16 rounded-3xl w-11/12">
         <div className="flex justify-between items-center p-2 h-full">
           <div className="flex items-center space-x-4">
-            <img src={loguito} alt="Logo" className="h-12 md:h-12" />
+            <img src={loguito} alt="Logo" className="h-12" />
 
             {/* Barra de búsqueda */}
-            <div className="relative w-96">
+            <div className="relative w-72 md:w-96">
               <input
                 type="text"
                 placeholder="¿Qué quieres cultivar?"
@@ -141,7 +141,7 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
                 </button>
                 <button
                   onClick={onRegisterClick}
-                  className="bg-green-500 text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105 mr-4"
+                  className="bg-green-500 text-white py-1 px-4 rounded-full hover:bg-[#1b5a31] transition-transform transform hover:scale-105"
                 >
                   Registrarse
                 </button>
@@ -219,7 +219,7 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
       </header>
 
       {/* Sección para mostrar resultados de búsqueda */}
-      <div className="relative z-10 w-11/12 mx-auto mt-20"> {/* Ajusta el margen superior para que esté debajo del header */}
+      <div className="relative z-10 w-11/12 mx-auto mt-20">
         {selectedCrop && (
           <div className="bg-white border border-gray-300 rounded-lg shadow-md p-3">
             <img src={selectedCrop.attributes.main_image_path} alt={selectedCrop.attributes.name} className="w-full h-24 object-cover rounded-t-lg" />

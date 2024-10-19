@@ -5,15 +5,13 @@ function Footer() {
   return (
     <footer className="bg-green-100 py-10">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-start">
- 
-        <div className="flex items-center md:items-start mb-6 md:mb-0">
-       
+
+        <div className="flex items-center mb-6 md:mb-0">
           <img src={loguito} alt="Logo Agrónova" className="h-20" />
         </div>
 
         {/* Links Section */}
-        {/* Aumentar el espaciado entre las columnas usando space-x-16 */}
-        <div className="flex flex-wrap justify-center space-x-20 mt-4 md:mt-0 text-green-800">
+        <div className="flex flex-wrap justify-center space-x-0 md:space-x-20 mt-4 md:mt-0 text-green-800">
           <FooterColumn 
             title="Compañía" 
             links={["Acerca de nosotros", "Nuestro compromiso", "Contacto"]} 
@@ -35,11 +33,11 @@ function Footer() {
   );
 }
 
-function FooterColumn({ title, links, titleClass }) {
+function FooterColumn({ title, links }) {
   return (
-    <div className="flex flex-col items-center md:items-start">
-      <h4 className={`font-bold mb-4 text-green-800 ${titleClass}`}>{title}</h4>
-      <ul>
+    <div className="flex flex-col items-center md:items-start mb-6 md:mb-0">
+      <h4 className="font-bold mb-4 text-green-800">{title}</h4>
+      <ul className="flex flex-col items-center md:items-start">
         {links.map((link, index) => (
           <li key={index} className="text-green-600 hover:text-purple-700 mb-2">
             <a href="/">{link}</a>
@@ -49,6 +47,5 @@ function FooterColumn({ title, links, titleClass }) {
     </div>
   );
 }
-
 
 export default Footer;

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Footer from "../component/Footer";
 import { motion } from 'framer-motion';
-import perfilImg from '../assets/images/fondo.jpg'; // Imagen del perfil
 import userBg from '../assets/images/fondo.jpg'; // Imagen de fondo
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate para manejar la navegación
 
@@ -22,7 +21,7 @@ const PerfilUsuario = () => {
   };
 
   // Función para obtener los datos del usuario
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId"); // Obtiene el ID del usuario
 
@@ -56,7 +55,7 @@ const PerfilUsuario = () => {
       console.error("Error al obtener los datos del usuario:", error);
       navigate('/InicioSesion'); // Redirige en caso de error
     }
-  };
+  }, [navigate]);
 
   // Función para actualizar los datos del usuario
   const updateUserData = async () => {
@@ -92,8 +91,7 @@ const PerfilUsuario = () => {
 
   useEffect(() => {
     fetchUserData(); // Llama a la función para obtener los datos del usuario al cargar el componente
-  }, []);
-
+  }, [fetchUserData]);
 
   if (!userData) {
     return (
@@ -133,7 +131,6 @@ const PerfilUsuario = () => {
     );
   }
 
-
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Sección de cabecera con imagen de fondo */}
@@ -141,8 +138,6 @@ const PerfilUsuario = () => {
         <img src={userBg} alt="Background" className="w-full h-full object-cover opacity-60" />
 
         {/* Botón de Regresar en la parte superior izquierda */}
-
-
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
           <h1 className="text-4xl font-bold">Hola, {userData.name}</h1>
           <p className="text-lg mt-2">
@@ -161,7 +156,6 @@ const PerfilUsuario = () => {
             >
               Guardar Cambios
             </button>
-
           )}
           <button
             onClick={handleBackClick}
@@ -215,76 +209,28 @@ const PerfilUsuario = () => {
               </div>
             </div>
 
-            {/* Información de contacto */}
+            {/* Sección de estadísticas */}
             <div className="mt-8">
-              <h3 className="text-lg font-semibold mb-4">Información del usuario</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-600">Dirección</label>
-                  <input
-                    type="text"
-                    value={userData.address}
-                    onChange={(e) => setUserData({ ...userData, address: e.target.value })} // Maneja el cambio de dirección
-                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
-                    disabled={!isEditing} // Desactiva el campo si no está en modo edición
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-600">Ciudad</label>
-                  <input
-                    type="text"
-                    value={userData.city}
-                    onChange={(e) => setUserData({ ...userData, city: e.target.value })} // Maneja el cambio de ciudad
-                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
-                    disabled={!isEditing} // Desactiva el campo si no está en modo edición
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-600">País</label>
-                  <input
-                    type="text"
-                    value={userData.country}
-                    onChange={(e) => setUserData({ ...userData, country: e.target.value })} // Maneja el cambio de país
-                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
-                    disabled={!isEditing} // Desactiva el campo si no está en modo edición
-                  />
-                </div>
-              </div>
+              <h3 className="text-lg font-semibold">Estadísticas</h3>
+              <p className="mt-2">Aquí puedes ver tus estadísticas del chatbot.</p>
+              {/* Aquí puedes agregar más información de estadísticas */}
             </div>
           </div>
 
-          {/* Tarjeta lateral con información del usuario */}
-          <div className="lg:w-1/3 bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
-            <img
-              src={perfilImg}
-              alt="Perfil del usuario"
-              className="rounded-full w-32 h-32 object-cover border-4 border-white shadow-lg"
-            />
-            <h3 className="mt-4 text-xl font-semibold">{userData.name}</h3>
-            <p className="text-gray-500">{userData.city}, {userData.country}</p>
-            <p className="mt-4 text-sm text-center text-gray-600">
-              {userData.bio}
-            </p>
-            <button className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">
-              Estadística
-            </button>
-            {/* Botón de Cierre de Sesión */}
+          {/* Sección de cerrar sesión */}
+          <div className="lg:w-1/3 bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Opciones</h2>
             <button
-              onClick={handleLogout}
-              className="mt-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg"
+              onClick={handleLogout} // Llama a la función de cerrar sesión
+              className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-6 rounded-lg"
             >
-              Cerrar sesión
+              Cerrar Sesión
             </button>
-            <div className="mt-6 text-sm text-gray-600 text-center">
-              <p>{userData.description}</p>
-              <a href="#" className="text-blue-500 hover:underline">Mostrar más</a>
-            </div>
           </div>
         </div>
       </div>
-      <Footer />
+
+      <Footer /> {/* Incluye el componente Footer */}
     </div>
   );
 };
