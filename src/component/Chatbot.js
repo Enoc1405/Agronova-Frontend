@@ -1,103 +1,89 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import { useNavigate } from "react-router-dom";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios"; // Importar Axios para manejar solicitudes HTTP
+import axios from "axios";
 import "../App.css";
-import { BiExpand } from "react-icons/bi"; // Importar el ícono para expandir
+import { BiExpand } from "react-icons/bi";
+import { FiMessageSquare } from "react-icons/fi";
 
 const App = () => {
   const [userInput, setUserInput] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [isChatExpanded, setIsChatExpanded] = useState(false); // Estado para controlar si el chat está expandido
 
-  const navigate = useNavigate(); // Inicializar useNavigate
-
-  // Inicializar la API de Gemini
+  const navigate = useNavigate();
   const genAI = new GoogleGenerativeAI("AIzaSyAxcHIYZaBolOa3MjBtpvES_EttV3RQEj4");
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  // Función para manejar la entrada del usuario
-  const handleUserInput = (e) => {
-    setUserInput(e.target.value);
-  };
+  const handleUserInput = (e) => setUserInput(e.target.value);
 
-  // Función para generar una respuesta con experiencia en agronomía
   const generateResponse = async (input) => {
     try {
       const result = await model.generateContent(input);
       const response = await result.response;
 
-      // Limpiar la respuesta eliminando * y #
-      const cleanedResponse = response.text().replace(/\*/g, "").replace(/#/g, "");
+      const cleanedResponse = response.text()
+        .replace(/\*/g, "")
+        .replace(/#/g, "")
+        .replace(/(\d+)\. /g, "<strong>$1.</strong> ")
+        .replace(/(\n\n|\r\n|\r)/g, "<br />")
+        .replace(/(\n)(?=[^<]*<strong>)/g, "<br /><br />")
+        .replace(/\n/g, "<br />");
 
-      // Formatear la respuesta para incluir numeraciones y listas
-      const formattedResponse = cleanedResponse
-        .replace(/(\d+)\. /g, "<strong>$1.</strong> ") // Formato para números
-        .replace(/(\n\n|\r\n|\r)/g, "<br />") // Reemplazar saltos de línea con <br />
-        .replace(/(\n)(?=[^<]*<strong>)/g, "<br /><br />") // Añadir espacio entre secciones
-        .replace(/\n/g, "<br />"); // Reemplazar saltos de línea con <br />
-
-      // Convertir el texto que empieza con "Consejos" y "Recuerda" en listas
-      return formattedResponse
+      return cleanedResponse
         .replace(/(Consejos adicionales:)/, "<strong>$1</strong><ul>")
         .replace(/(Tipos de frijoles:)/, "<strong>$1</strong><ul>")
         .replace(/- (.*?)(?=<br>|$)/g, "<li>$1</li>")
-        .replace(/<\/ul>\s*<ul>/g, ""); // Evitar listas anidadas
+        .replace(/<\/ul>\s*<ul>/g, "");
     } catch (error) {
       console.error("Error generating response:", error);
       return "Lo siento, no pude entender tu pregunta. ¿Podrías reformularla?";
     }
   };
 
-  // Función para enviar el mensaje del usuario y guardar la conversación
   const sendMessage = async () => {
     if (userInput.trim() === "") return;
 
     setIsLoading(true);
     try {
-      const userMessage = { type: "user", message: userInput };
-      const botMessage = await generateResponse(userInput);
+        const userMessage = { type: "user", message: userInput };
+        const botMessage = await generateResponse(userInput);
 
-      setChatHistory([...chatHistory, userMessage, { type: "bot", message: botMessage }]);
+        setChatHistory((prevHistory) => [
+            ...prevHistory,
+            userMessage,
+            { type: "bot", message: botMessage },
+        ]);
 
-      // Guardar mensajes en la base de datos
-      await axios.post('http://localhost:8000/api/conversations', { message: userInput, type: 'user' });
-      await axios.post('http://localhost:8000/api/conversations', { message: botMessage, type: 'bot' });
+        // Guardar solo la consulta del usuario en la API
+        await axios.post('https://agronova-backend-production.up.railway.app/api/consultas', {
+            consulta_texto: userInput,
+            user_id: 1 // Ajusta este valor según tu lógica de autenticación
+        });
+
     } catch (error) {
-      console.error("Error sending message:", error.response ? error.response.data : error.message);
+        console.error("Error sending message:", error.response?.data || error.message);
     } finally {
-      setUserInput(""); 
-      setIsLoading(false);
+        setUserInput(""); // Limpiar el campo de entrada
+        setIsLoading(false);
     }
-  };
+};
 
-  // Función para manejar eventos de tecla
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       sendMessage();
     }
   };
 
-  // Función para limpiar el historial del chat
-  const clearChat = () => {
-    setChatHistory([]);
-  };
-
-  // Alternar la visibilidad del chat
   const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
-  };
-
-  // Función para alternar la expansión del chat
-  const toggleChatSize = () => {
-    setIsChatExpanded(!isChatExpanded);
+    setIsChatOpen((prev) => !prev);
   };
 
   const goToChat = () => {
-    navigate("/Chat"); // Navega a la ruta "/Chat"
+    navigate("/Chat");
   };
 
   useEffect(() => {
@@ -107,20 +93,17 @@ const App = () => {
   }, []);
 
   return (
-    <div className="relative" style={{ backgroundColor: '#1F2937' }}> {/* bg-gray-900 */}
-
+    <div className="relative" style={{ backgroundColor: '#1F2937' }}>
       <AnimatePresence>
         {isChatOpen && (
           <motion.div
-            className={`fixed bottom-8 right-8 w-full sm:w-[550px] ${isChatExpanded ? 'h-[800px]' : 'h-[600px]'} bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden`}
-            initial={{ opacity: 0, y: 100 }} // Mueve el chat hacia arriba en lugar de escalar
+            className="fixed bottom-8 right-8 w-full sm:w-[550px] h-[600px] bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden"
+            initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            {/* Botón de cierre claro en la parte superior */}
             <div className="absolute top-2 right-2 flex space-x-2">
-              {/* Botón de cierre */}
               <button
                 onClick={toggleChat}
                 className="bg-transparent hover:bg-gray-700 text-gray-300 font-semibold py-1 px-2 rounded-full border border-gray-300 transition duration-300 focus:outline-none"
@@ -129,7 +112,6 @@ const App = () => {
                 ✕
               </button>
 
-              {/* Botón de expansión */}
               <button
                 onClick={goToChat}
                 className="bg-transparent hover:bg-gray-700 text-gray-300 font-semibold py-1 px-2 rounded-full border border-gray-300 transition duration-300 focus:outline-none"
@@ -139,9 +121,8 @@ const App = () => {
               </button>
             </div>
 
-
             <div className="p-4 flex flex-col h-full">
-              <div className="chat-container flex-grow overflow-y-auto mb-2 ">
+              <div className="chat-container flex-grow overflow-y-auto mb-2">
                 {chatHistory.map((chat, index) => (
                   <div
                     key={index}
@@ -150,7 +131,7 @@ const App = () => {
                     <div
                       className={`px-4 py-2 rounded-lg ${chat.type === "user" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
                       style={{ maxWidth: "80%" }}
-                      dangerouslySetInnerHTML={{ __html: chat.message }} // Renderiza el HTML
+                      dangerouslySetInnerHTML={{ __html: chat.message }}
                     ></div>
                   </div>
                 ))}
@@ -187,8 +168,8 @@ const App = () => {
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.3 }}
         >
-          <span className="me-2 text-lg">Chat</span>
-          <i className="bi bi-chat-quote fs-4"></i>
+          <FiMessageSquare className="mr-2" />
+          <span className="text-lg">Chat</span>
         </motion.button>
       )}
     </div>

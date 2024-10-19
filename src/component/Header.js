@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MenuIcon, XIcon, UserIcon, InformationCircleIcon, ChatIcon, LogoutIcon, ChartBarIcon } from '@heroicons/react/solid';
+import {
+  MenuIcon,
+  XIcon,
+  UserIcon,
+  InformationCircleIcon,
+  ChatIcon,
+  LogoutIcon,
+  ChartBarIcon,
+} from '@heroicons/react/solid';
 import loguito from '../assets/images/Loguito.png';
 import backgroundImage from '../assets/images/presentation.png';
 
+// Mapa de traducción de español a inglés
 const translationMap = {
   "tomate": "tomato",
   "lechuga": "lettuce",
@@ -29,21 +38,20 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
 
   // Redirigir a la página de perfil
   const goToProfile = () => {
-    console.log('Navegando a perfil'); // Agrega este log para asegurarte que la función se llama
     navigate("/PefilUsuario"); // Cambia la ruta si el path es diferente
   };
 
   const goToAbout = () => {
     navigate("/About");
-  }
+  };
 
   const goToDash = () => {
     navigate("/Dashboard");
-  }
+  };
 
   const goToChat = () => {
     navigate("/Chat");
-  }
+  };
 
   // Cerrar sesión (ejemplo)
   const handleLogout = () => {
@@ -196,14 +204,6 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
                     </button>
 
                     <button
-                      onClick={goToProfile}
-                      className="flex items-center w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      <InformationCircleIcon className="h-5 w-5 mr-2" />
-                      Contacto
-                    </button>
-
-                    <button
                       onClick={handleLogout}
                       className="flex items-center w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100 rounded-b-lg"
                     >
@@ -222,18 +222,9 @@ function HeroHeader({ onLoginClick, onRegisterClick }) {
       <div className="relative z-10 w-11/12 mx-auto mt-20">
         {selectedCrop && (
           <div className="bg-white border border-gray-300 rounded-lg shadow-md p-3">
-            <img src={selectedCrop.attributes.main_image_path} alt={selectedCrop.attributes.name} className="w-full h-24 object-cover rounded-t-lg" />
-            <h3 className="text-sm font-semibold mt-1">{selectedCrop.attributes.name}</h3>
-            <p className="text-gray-600 text-sm">{selectedCrop.attributes.description}</p>
-            <p className="text-gray-600 text-sm"><strong>Nombre científico:</strong> {selectedCrop.attributes.binomial_name}</p>
-            <p className="text-gray-600 text-sm"><strong>Requerimientos de sol:</strong> {selectedCrop.attributes.sun_requirements}</p>
-            <p className="text-gray-600 text-sm"><strong>Método de siembra:</strong> {selectedCrop.attributes.sowing_method}</p>
-            <p className="text-gray-600 text-sm"><strong>Altura:</strong> {selectedCrop.attributes.height} cm</p>
-          </div>
-        )}
-        {searchTerm && !selectedCrop && (
-          <div className="bg-white border border-gray-300 rounded-lg shadow-md p-3">
-            <p className="text-gray-500 text-sm">No se encontraron resultados para "{searchTerm}"</p>
+            <img src={selectedCrop.attributes.main_image_path} alt={selectedCrop.attributes.name} className="w-full h-48 object-cover rounded-md" />
+            <h3 className="text-lg font-semibold mt-2">{selectedCrop.attributes.name}</h3>
+            <p className="text-sm text-gray-500">{selectedCrop.attributes.description}</p>
           </div>
         )}
       </div>

@@ -8,6 +8,7 @@ import fondo4 from "../assets/images/fondo4.jpg";
 import fondo5 from "../assets/images/fondo5.jpg";
 import Footer from "../component/Footer";
 import { motion } from "framer-motion";
+import Chatbot from "../component/Chatbot";
 
 // Import team member images
 import Ga from '../assets/images/yp .jpg';
@@ -47,6 +48,7 @@ const AgricultureLandingPage = () => {
 
     return (
         <div className="relative bg-gray-900 text-white min-h-screen">
+            <Chatbot />
             {/* Header Section */}
             <header
                 className="flex flex-col items-center justify-center min-h-screen text-center relative" // Mantiene la posición relativa
@@ -60,7 +62,7 @@ const AgricultureLandingPage = () => {
                     className="absolute top-4 left-4 px-4 py-2 bg-white text-green-600 border border-green-600 rounded-full shadow hover:bg-green-600 hover:text-white transition duration-300" // Estilos para el botón más estético
                     onClick={handleBackClick} // Llama a la función de navegación al hacer clic
                 >
-                    Regresa
+                    Regresar
                 </button>
                 <div className="bg-black bg-opacity-50 p-10 rounded-lg">
                     <h1 className="text-5xl font-bold mb-4">Cultivando un futuro sostenible</h1>

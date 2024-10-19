@@ -9,6 +9,7 @@ import FormularioGuia  from "./component/FormularioGuia";
 import About from './component/About';
 import PlantInfo from "./component/PlantInfo"; 
 import PerfilUsuario  from "./component/PerfilUsuario"; 
+import Estadisticas  from "./component/Estadisticas"; 
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Chat" element={<Chat />} />
         <Route path="/FormularioGuia" element={<FormularioGuia  />} />
+        <Route path="/Estadisticas" element={<Estadisticas/>} />
       </Routes>
     </div>
   );
