@@ -17,12 +17,12 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png',
 })
 
-const API_URL = 'http://127.0.0.1:8000/api/polygons'
-const WEATHER_FORECAST_URL = 'http://127.0.0.1:8000/api/weather/forecast'
-const WEATHER_CURRENT_URL = 'http://127.0.0.1:8000/api/weather/current'
-const SOIL_DATA_URL = 'http://127.0.0.1:8000/api/soil'
-const UV_INDEX_URL = 'http://127.0.0.1:8000/api/uv'
-const SATELLITE_IMAGES_URL = 'http://127.0.0.1:8000/api/polygons/6712e4f84026351cc92ed243/satellite-images'
+const API_URL = 'https://agronova-backend-production.up.railway.app/api/polygons'
+const WEATHER_FORECAST_URL = 'https://agronova-backend-production.up.railway.app/api/weather/forecast'
+const WEATHER_CURRENT_URL = 'https://agronova-backend-production.up.railway.app/api/weather/current'
+const SOIL_DATA_URL = 'https://agronova-backend-production.up.railway.app/api/soil'
+const UV_INDEX_URL = 'https://agronova-backend-production.up.railway.app/api/uv'
+const SATELLITE_IMAGES_URL = 'https://agronova-backend-production.up.railway.app/api/polygons/6712e4f84026351cc92ed243/satellite-images'
 
 function WeatherCard({ title, data, type, icon: Icon }) {
   const [isOpen, setIsOpen] = useState(false)
